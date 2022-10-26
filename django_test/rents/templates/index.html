@@ -17,34 +17,29 @@
             <th>Reservation ID</th>
             <th>Check in</th>
             <th>Check out</th>
-            <th>Previous reservation and ID</th>
+            <th>Previous reservation ID</th>
         </tr>
-        {% for rental in all_rental_info %}
-            {% with last_rental="-" %}
-            {% for reservation in rental.reservations %}
-                <tr>            
-                    <td>                
-                        {{ rental.name }}
-                    </td>  
-                    <td>                
-                        {{ rental.id }}
-                    </td>  
-                    <td>
-                        {{ reservation.id }}
-                    </td>
-                    <td>
-                        {{ reservation.check_in }}
-                    </td> 
-                    <td>                
-                        {{ reservation.check_out }}
-                    </td>  
-                    <td>                
-                        {{last_rental}}
-                    </td>
-                    {%  last_rental = reservation.name +' '+ reservation.id %}
-                </tr>            
-            {% endfor %}
-            {% endwith %}
+        {% for rental, reservation, previous in all_rental_info %}           
+            <tr>
+                <td>
+                    {{ rental.name }}
+                </td>
+                <td>
+                    {{ rental.id }}
+                </td>
+                <td>
+                    {{ reservation.id }}
+                </td>
+                <td>
+                    {{ reservation.check_in }}
+                </td> 
+                <td>
+                    {{ reservation.check_out }}
+                </td>
+                <td>
+                    {{ previous }}
+                </td>
+            </tr>
         {% endfor %}
     </table>
 {% else %}

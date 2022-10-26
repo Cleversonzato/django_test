@@ -8,14 +8,19 @@ from .models import Rental, Reservation
 
 
 def index(request):    
-    """ Index view, with all the information"""
+    """ Index view, with all the information""" 
+    list_all_info = []
+    for rental in Rental.objects.all():
+        # considering that the reservations are already sorted, we can simply get the privious one like this
+        previous_reservation = '-'
+        for reservation in rental.reservations:     
+            list_all_info.append((rental, reservation, previous_reservation))            
+            previous_reservation = reservation.id
 
-    all_rental_info = Rental.objects.all()
-    
     return render(
         request,
         'index.html',
-        {'all_rental_info':all_rental_info}
+        {'all_rental_info':list_all_info}
     )
 
 

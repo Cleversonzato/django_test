@@ -4,10 +4,6 @@ class Rental(models.Model):
     name = models.CharField(max_length=300)
 
     @property
-    def previous_rental(self):
-        return '-'
-
-    @property
     def reservations(self):        
         if self.reservation_set.all():
             return self.reservation_set.all()
