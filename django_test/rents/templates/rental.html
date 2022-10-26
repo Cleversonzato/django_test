@@ -1,0 +1,52 @@
+<a href="{% url 'index' %}">back to index</a>
+
+<h3>New rental</h3>
+<form action="{% url 'rental_create' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend>rental name</legend>
+            <input type="text" name="name" id="name_field_id">
+    </fieldset>
+    <input type="submit" value="create"> 
+    {% if error %}
+        <h5>{{error}}</h5>
+    {% endif %}
+</form>
+
+{% if success %}
+<h5>Operation executed successfully</h5>
+{% endif %}
+
+<h3>Rentals:</h3>
+{% if all_rental_info %}
+    <table>
+        <tr>
+            <th>Rental Name</th>
+            <th>ID</th>
+        </tr>
+        {% for rent in all_rental_info %}
+        <tr>
+            <td>
+                {{rent.name}}
+            </td>
+            <td>
+                {{rent.id}}
+            </td>
+            <td>
+                <a href="{% url 'rental_remove' rent.id %}">[remove]</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+        </ul>
+    </table>
+{% else %}
+    <h5>No information available.</h5>
+{% endif %}
+
+<style>
+    table, th, td {
+      border: 3px;
+      padding: 4px;
+    }
+</style>

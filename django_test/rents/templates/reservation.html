@@ -1,0 +1,74 @@
+<a href="{% url 'index' %}">back to index</a>
+
+<h3>New reservation</h3>
+<form action="{% url 'reservation_create' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <div>
+            <label for="rental_field">Rental</label>
+            <select name="rental_id" id="rental_field">
+                {% for rent in all_rental_info %}
+                    <option value="{{rent.id}}">{{rent.name}} ({{rent.id}})</option>
+                {% endfor %}
+              </select>
+        </div>
+        <div>
+            <label for="ckin">Check in date</label>
+            <input id="ckin" type="date" name="check_in"/>
+        </div>
+        <div></div>
+            <label for="ckout">Check out date:</label>
+            <input id="ckout" type="date" name="check_out"/>
+        </div>
+    </fieldset>
+    <input type="submit" value="create"> 
+    {% if error %}
+        <h5>{{error}}</h5>
+    {% endif %}
+</form>
+
+{% if success %}
+<h5>Operation executed successfully</h5>
+{% endif %}
+
+<h3>reservations:</h3>
+{% if all_reservation_info %}
+    <table>
+        <tr>
+            <th>Rental name</th>
+            <th>Reservation id</th>
+            <th>Check in date</th>
+            <th>Check out date</th>
+        </tr>
+        {% for reservation in all_reservation_info %}
+        <tr>
+            <td>
+                {{reservation.rental.name}}
+            </td>
+            <td>
+                {{reservation.id}}
+            </td>
+            <td>                
+                {{ reservation.check_in }}
+            </td>  
+            <td>                
+                {{ reservation.check_out }}
+            </td> 
+            <td>
+                <a href="{% url 'reservation_remove' reservation.id %}">[remove]</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+        </ul>
+    </table>
+{% else %}
+    <h5>No information available.</h5>
+{% endif %}
+
+<style>
+    table, th, td {
+      border: 3px;
+      padding: 4px;
+    }
+</style>
