@@ -1,0 +1,60 @@
+<h3>Management:</h3>
+<div>
+    <ul>
+        <a href="{% url 'rental' %}">rentals page</a>
+    </ul>
+    <ul>
+        <a href="{% url 'reservation' %}">reservations page</a>
+    </ul>
+</div>
+
+<h3>Curent information:</h3>
+{% if all_rental_info %}
+    <table>
+        <tr>
+            <th>Rental Name</th>
+            <th>Rental ID</th>
+            <th>Reservation ID</th>
+            <th>Check in</th>
+            <th>Check out</th>
+            <th>Previous reservation and ID</th>
+        </tr>
+        {% for rental in all_rental_info %}
+            {% with last_rental="-" %}
+            {% for reservation in rental.reservations %}
+                <tr>            
+                    <td>                
+                        {{ rental.name }}
+                    </td>  
+                    <td>                
+                        {{ rental.id }}
+                    </td>  
+                    <td>
+                        {{ reservation.id }}
+                    </td>
+                    <td>
+                        {{ reservation.check_in }}
+                    </td> 
+                    <td>                
+                        {{ reservation.check_out }}
+                    </td>  
+                    <td>                
+                        {{last_rental}}
+                    </td>
+                    {%  last_rental = reservation.name +' '+ reservation.id %}
+                </tr>            
+            {% endfor %}
+            {% endwith %}
+        {% endfor %}
+    </table>
+{% else %}
+    <h5>No information available.</h5>
+    <small>Try adding some in the management pages</small>
+{% endif %}
+
+<style>
+    table, th, td {
+      border: 5px;
+      padding: 5px;
+    }
+</style>
